@@ -1,4 +1,3 @@
-// import { useAppContext } from "../context/appContext";
 import { MdDelete, MdEditNote } from "react-icons/md";
 import { ButtonsContainer, RowButton } from "../styledComponents";
 

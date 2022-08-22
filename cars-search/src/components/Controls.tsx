@@ -1,5 +1,6 @@
 import { useState } from "react";
-// import { useAppContext } from "../context/appContext";
+import { useContext } from "react";
+import { AppContext } from "../context/appContext";
 import { MdCreateNewFolder } from "react-icons/md";
 import { RiFileSearchFill, RiCheckboxFill } from "react-icons/ri";
 import { Dropdown } from ".";
@@ -12,6 +13,7 @@ import {
 
 const Controls = () => {
   // const { dropdownValue, filterItems, setEditItem } = useAppContext();
+  const { dropdownValue } = useContext(AppContext);
 
   const [filterValue, setFilterValue] = useState<string>("");
 
@@ -19,8 +21,6 @@ const Controls = () => {
   //   filterItems(filterValue);
   //   eslint-disable-next-line
   // }, [filterValue]);
-
-  const dropdownValue: string = "";
 
   return (
     <ControlsWrapper>

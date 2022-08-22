@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-// import { useAppContext } from "../context/appContext";
-// import { Select, MenuItem } from "@mui/material";
+import { useContext } from "react";
+import { AppContext } from "../context/appContext";
 
 type DropdownProps = {
   setFilterValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Dropdown = ({ setFilterValue }: DropdownProps) => {
-  // const { dropdownValue, preservedItems, setDropdownValue } = useAppContext();
+  // const { dropdownValue, preservedItems - don't need?, setDropdownValue } = useAppContext();
+  const { dropdownValue } = useContext(AppContext);
   const [selectedOption, setSelectedOption] = useState<String>();
 
   // const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -21,8 +22,6 @@ const Dropdown = ({ setFilterValue }: DropdownProps) => {
     setFilterValue("");
     console.log(selectedOption);
   };
-
-  // const dropdownValue: string = "";
 
   return (
     // <Select value={dropdownValue} onChange={handleSelect} displayEmpty>
@@ -41,8 +40,8 @@ const Dropdown = ({ setFilterValue }: DropdownProps) => {
     //         })
     //     : null}
     // </Select>
-    <select defaultValue={"Search Field"} onChange={handleSelect}>
-      <option value="Search Field" disabled>
+    <select defaultValue={dropdownValue} onChange={handleSelect}>
+      <option value="" disabled>
         Search Field
       </option>
       <option value="make">make</option>

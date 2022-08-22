@@ -1,5 +1,5 @@
-import React from "react";
-// import { useAppContext } from "../context/appContext";
+import { useContext } from "react";
+import { AppContext } from "../context/appContext";
 import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa";
 import { Controls, Loading, Row, Modal } from ".";
 import { TableHeader, TableWrapper } from "../styledComponents";
@@ -41,22 +41,18 @@ const tableItems: Item[] = [
 ];
 
 const Table = () => {
-  // const {
-  //   tableItems,
-  //   sortType,
-  //   sortField,
-  //   sortItems,
-  //   isLoading,
-  //   isOpen,
-  //   error,
-  // } = useAppContext();
+  const {
+    // tableItems,
+    sortType,
+    sortField,
+    // sortItems,
+    isLoading,
+    isOpen,
+    error,
+  } = useContext(AppContext);
 
   const getKeys = () => {
     const keys = Object.keys(tableItems[0]).filter((key) => key !== "id");
-    // const keys = Object.keys(item).filter((key) => key !== "id");
-
-    let sortType = "";
-    let sortField = "";
 
     return keys.map((key, index) => {
       return (
@@ -85,9 +81,6 @@ const Table = () => {
     );
   };
 
-  let isOpen: boolean = false;
-  let isLoading: boolean = false;
-
   return (
     <>
       {isOpen && <Modal />}
@@ -113,7 +106,7 @@ const Table = () => {
           ) : (
             <>
               <h2>Sorry, no values matched your search...</h2>
-              {/* {error && <h2>{error}</h2>} */}
+              {error && <h2>{error}</h2>}
             </>
           )}
         </TableWrapper>

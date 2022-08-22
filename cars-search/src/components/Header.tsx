@@ -1,4 +1,5 @@
-// import { useAppContext } from "../context/appContext";
+import { useContext } from "react";
+import { AppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 import { Button, SharedLayoutWrapper } from "../styledComponents";
 
@@ -12,13 +13,12 @@ const Header = () => {
   const navigate = useNavigate();
 
   // const { user, isCars } = useAppContext();
+  const { isCars } = useContext(AppContext);
   const user: User | null = {
     name: "user name",
     email: "user email",
     password: "user password",
   };
-
-  const isCars: boolean = false;
 
   const handleLogout = () => {
     navigate("/");

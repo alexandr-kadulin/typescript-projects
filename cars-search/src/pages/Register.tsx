@@ -1,5 +1,6 @@
 import { useState } from "react";
-// import { useAppContext } from "../context/appContext";
+import { useContext } from "react";
+import { AppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 import { FormRow, Alert } from "../components";
 import {
@@ -35,23 +36,21 @@ const user: User = {
   password: "user password",
 };
 
-const token: string = "mockToken";
-
 const Register = () => {
   const navigate = useNavigate();
 
   const [values, setValues] = useState<InitialState>(initialState);
 
-  // const {
-  //   user,
-  //   token,
-  //   isLoading,
-  //   displayAlert,
-  //   showAlert,
-  //   registerUser,
-  //   loginUser,
-  //   hideLogout,
-  // } = useAppContext();
+  const {
+    // user,
+    token,
+    isLoading,
+    // displayAlert,
+    showAlert,
+    // registerUser,
+    // loginUser,
+    // hideLogout,
+  } = useContext(AppContext);
 
   // useEffect(() => {
   //   hideLogout();
@@ -76,7 +75,7 @@ const Register = () => {
       return;
     }
 
-    const currentUser: User = { name, email, password }; // type?
+    const currentUser: User = { name, email, password };
 
     if (isMember) {
       if (!user || !token) {
@@ -109,8 +108,7 @@ const Register = () => {
     <RegisterWrapper>
       <Form register onSubmit={handleSubmit}>
         <h3>{values.isMember ? "Login" : "Register"}</h3>
-        {/* {showAlert && <Alert />} */}
-        <Alert />
+        {showAlert && <Alert />}
         {!values.isMember && (
           <FormRow
             type="text"
@@ -131,15 +129,12 @@ const Register = () => {
           value={values.password}
           handleChange={handleChange}
         />
-        <SubmitButton
-          register
-          //  disabled={isLoading}
-        >
+        <SubmitButton type="submit" register disabled={isLoading}>
           submit
         </SubmitButton>
         <p>
           {values.isMember ? "Not a member yet?" : "Already a member?"}
-          <MemberButton onClick={toggleMember}>
+          <MemberButton type="button" onClick={toggleMember}>
             {values.isMember ? "Register" : "Login"}
           </MemberButton>
         </p>

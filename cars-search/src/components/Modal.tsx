@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-// import { useAppContext } from "../context/appContext";
+import { useContext } from "react";
+import { AppContext } from "../context/appContext";
 import { Alert, FormRow } from ".";
 import {
   Button,
@@ -19,25 +20,16 @@ type EditItem = {
   photo: string;
 };
 
-const editItem: EditItem = {
-  id: "",
-  make: "",
-  vin: "",
-  plate_number: "",
-  cost: "",
-  photo: "",
-};
-
 const Modal = () => {
-  // const {
-  //   editItem,
-  //   isEdit,
-  //   replaceItem,
-  //   closeModal,
-  //   addItem,
-  //   displayAlert,
-  //   showAlert,
-  // } = useAppContext();
+  const {
+    editItem,
+    isEdit,
+    // replaceItem,
+    // closeModal,
+    // addItem,
+    // displayAlert,
+    showAlert,
+  } = useContext(AppContext);
 
   const [details, setDetails] = useState<EditItem>(editItem);
 
@@ -56,8 +48,6 @@ const Modal = () => {
         }
       }
     }
-
-    let isEdit: boolean = false;
 
     if (isEmptyValue === false) {
       if (isEdit) {
@@ -124,8 +114,7 @@ const Modal = () => {
               cancel
             </Button>
           </ButtonsContainer>
-          {/* {showAlert && <Alert />} */}
-          <Alert />
+          {showAlert && <Alert />}
         </Form>
       </ModalWrapper>
     </ModalContainer>

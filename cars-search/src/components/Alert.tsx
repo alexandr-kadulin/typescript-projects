@@ -1,10 +1,9 @@
-// import { useAppContext } from "../context/appContext";
+import { useContext } from "react";
+import { AppContext } from "../context/appContext";
 import { AlertWrapper } from "../styledComponents";
 
 const Alert = () => {
-  // const { alertType, alertText } = useAppContext();
-  const alertType: string = "danger";
-  const alertText: string = "alert text";
+  const { alertType, alertText } = useContext(AppContext);
 
   return <AlertWrapper alertType={alertType}>{alertText}</AlertWrapper>;
 };
