@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { AppContext } from "../context/appContext";
 import { Alert, FormRow } from ".";
+import { Car } from "../types";
 import {
   Button,
   SubmitButton,
@@ -11,39 +12,30 @@ import {
   ModalWrapper,
 } from "../styledComponents";
 
-type EditItem = {
-  id: string;
-  make: string;
-  vin: string;
-  plate_number: string;
-  cost: string;
-  photo: string;
-};
-
 const Modal = () => {
   const {
     editItem,
     isEdit,
-    // replaceItem,
-    // closeModal,
-    // addItem,
-    // displayAlert,
+    replaceItem,
+    closeModal,
+    addItem,
+    displayAlert,
     showAlert,
   } = useContext(AppContext);
 
-  const [details, setDetails] = useState<EditItem>(editItem);
+  const [car, setCar] = useState<Car>(editItem);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDetails({ ...details, [e.target.name]: e.target.value });
+    setCar({ ...car, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     let isEmptyValue: boolean = false;
 
-    for (const key in details) {
+    for (const key in car) {
       if (key !== "id") {
-        if (!details[key as keyof EditItem]) {
+        if (!car[key as keyof Car]) {
           isEmptyValue = true;
         }
       }
@@ -51,66 +43,57 @@ const Modal = () => {
 
     if (isEmptyValue === false) {
       if (isEdit) {
-        // replaceItem(details);
-        // closeModal();
-        console.log("isEdit");
+        replaceItem?.(car);
+        closeModal?.();
       } else {
-        // addItem(details);
-        // closeModal();
-        console.log("!isEdit");
+        addItem?.(car);
+        closeModal?.();
       }
     } else {
-      // displayAlert("Can't submit empty value");
-      console.log("Can't submit empty value");
+      displayAlert?.("Can't submit empty value");
     }
   };
 
   return (
     <ModalContainer>
       <ModalWrapper>
-        <h4>cars details</h4>
+        <h4>cars car</h4>
         <Form>
           <FormRow
             type="text"
             name="make"
-            value={details.make}
+            value={car.make}
             handleChange={handleChange}
           />
           <FormRow
             type="text"
             name="vin"
-            value={details.vin}
+            value={car.vin}
             handleChange={handleChange}
           />
           <FormRow
             type="text"
             name="plate_number"
-            value={details.plate_number}
+            value={car.plate_number}
             handleChange={handleChange}
           />
           <FormRow
             type="text"
             name="cost"
-            value={details.cost}
+            value={car.cost}
             handleChange={handleChange}
           />
           <FormRow
             type="text"
             name="photo"
-            value={details.photo}
+            value={car.photo}
             handleChange={handleChange}
           />
           <ButtonsContainer>
             <SubmitButton type="submit" onClick={handleSubmit}>
               execute
             </SubmitButton>
-            <Button
-              type="button"
-              // onClick={closeModal}
-              onClick={() => {
-                console.log("close modal");
-              }}
-            >
+            <Button type="button" onClick={closeModal}>
               cancel
             </Button>
           </ButtonsContainer>

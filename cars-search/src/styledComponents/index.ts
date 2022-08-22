@@ -10,6 +10,7 @@ import { ModalContainer, ModalWrapper } from "./Modal.styles";
 import { TableWrapper, TableHeader } from "./Table.styles";
 import { ControlsForm, Form } from "./Form.styles";
 import { FormRowInput, Input } from "./Input.styles";
+import { Select } from "./Select.styles";
 import { Label } from "./Label.styles";
 import {
   Button,
@@ -20,6 +21,7 @@ import {
 } from "./Button.styles";
 
 export {
+  Select,
   MemberButton,
   RegisterWrapper,
   LandingColumn,

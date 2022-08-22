@@ -1,12 +1,5 @@
 import { FormRowInput, Label } from "../styledComponents";
-
-type FormRowProps = {
-  type: string;
-  name: string;
-  value: string;
-  labelText?: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+import { FormRowProps } from "../types";
 
 const FormRow = ({
   type,

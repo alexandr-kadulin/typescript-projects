@@ -3,22 +3,10 @@ import { AppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 import { Button, SharedLayoutWrapper } from "../styledComponents";
 
-type User = {
-  name: string;
-  email: string;
-  password: string;
-};
-
 const Header = () => {
   const navigate = useNavigate();
 
-  // const { user, isCars } = useAppContext();
-  const { isCars } = useContext(AppContext);
-  const user: User | null = {
-    name: "user name",
-    email: "user email",
-    password: "user password",
-  };
+  const { user, isCars } = useContext(AppContext);
 
   const handleLogout = () => {
     navigate("/");

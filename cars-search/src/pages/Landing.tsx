@@ -1,16 +1,17 @@
-// import { useEffect } from "react";
-// import { useAppContext } from "../context/appContext";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { AppContext } from "../context/appContext";
 import { Link } from "react-router-dom";
 import { Button, LandingColumn, LandingWrapper } from "../styledComponents";
 import main from "../assets/images/main.svg";
 
 const Landing = () => {
-  // const { hideLogout } = useAppContext();
+  const { hideLogout } = useContext(AppContext);
 
-  // useEffect(() => {
-  //   hideLogout();
-  //   eslint-disable-next-line
-  // }, []);
+  useEffect(() => {
+    hideLogout?.();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <LandingWrapper>

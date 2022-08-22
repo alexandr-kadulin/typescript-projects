@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { AppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 import { FormRow, Alert } from "../components";
+import { User } from "../types";
 import {
   Form,
   MemberButton,
@@ -10,52 +11,33 @@ import {
   SubmitButton,
 } from "../styledComponents";
 
-type InitialState = {
-  name: string;
-  email: string;
-  password: string;
-  isMember: boolean;
-};
-
-const initialState: InitialState = {
+const initialState: User = {
   name: "",
   email: "",
   password: "",
   isMember: false,
 };
 
-type User = {
-  name: string;
-  email: string;
-  password: string;
-};
-
-const user: User = {
-  name: "user name",
-  email: "user email",
-  password: "user password",
-};
-
 const Register = () => {
   const navigate = useNavigate();
 
-  const [values, setValues] = useState<InitialState>(initialState);
+  const [values, setValues] = useState<User>(initialState);
 
   const {
-    // user,
+    user,
     token,
     isLoading,
-    // displayAlert,
+    displayAlert,
     showAlert,
-    // registerUser,
-    // loginUser,
-    // hideLogout,
+    registerUser,
+    loginUser,
+    hideLogout,
   } = useContext(AppContext);
 
-  // useEffect(() => {
-  //   hideLogout();
-  //   eslint-disable-next-line
-  // }, []);
+  useEffect(() => {
+    hideLogout?.();
+    // eslint-disable-next-line
+  }, []);
 
   const toggleMember = () => {
     setValues({ ...initialState, isMember: !values.isMember });
@@ -70,8 +52,7 @@ const Register = () => {
     const { name, email, password, isMember } = values;
 
     if (!email || !password || (!isMember && !name)) {
-      // displayAlert();
-      console.log("display alert");
+      displayAlert?.();
       return;
     }
 
@@ -79,24 +60,20 @@ const Register = () => {
 
     if (isMember) {
       if (!user || !token) {
-        // displayAlert("No such user");
-        console.log("No such user");
+        displayAlert?.("No such user");
         return;
       }
       if (user.email !== email || user.password !== password) {
-        // displayAlert("Invalid credentials");
-        console.log("Invalid credentials");
+        displayAlert?.("Invalid credentials");
       } else {
-        // loginUser(user, token);
-        console.log(user, token);
+        loginUser?.(user, token);
 
         setTimeout(() => {
           navigate("/cars");
         }, 2500);
       }
     } else {
-      // registerUser(currentUser);
-      console.log(currentUser);
+      registerUser?.(currentUser);
 
       setTimeout(() => {
         navigate("/cars");

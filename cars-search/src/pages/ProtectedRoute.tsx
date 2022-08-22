@@ -1,18 +1,10 @@
 import { Navigate } from "react-router-dom";
-// import { useAppContext } from "../context/appContext";
-
-type ProtectedRouteProps = {
-  children: JSX.Element;
-};
+import { useContext } from "react";
+import { AppContext } from "../context/appContext";
+import { ProtectedRouteProps } from "../types";
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // const { user } = useAppContext();
-
-  // if (!user) {
-  //   return <Navigate to="/" />;
-  // }
-
-  const user = "user";
+  const { user } = useContext(AppContext);
 
   if (!user) {
     return <Navigate to="/" />;

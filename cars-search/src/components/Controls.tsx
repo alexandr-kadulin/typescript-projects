@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { AppContext } from "../context/appContext";
 import { MdCreateNewFolder } from "react-icons/md";
@@ -12,15 +12,14 @@ import {
 } from "../styledComponents";
 
 const Controls = () => {
-  // const { dropdownValue, filterItems, setEditItem } = useAppContext();
-  const { dropdownValue } = useContext(AppContext);
+  const { dropdownValue, filterItems, setEditItem } = useContext(AppContext);
 
   const [filterValue, setFilterValue] = useState<string>("");
 
-  // useEffect(() => {
-  //   filterItems(filterValue);
-  //   eslint-disable-next-line
-  // }, [filterValue]);
+  useEffect(() => {
+    filterItems?.(filterValue);
+    // eslint-disable-next-line
+  }, [filterValue]);
 
   return (
     <ControlsWrapper>
@@ -40,8 +39,7 @@ const Controls = () => {
       <Button
         type="button"
         onClick={() => {
-          // setEditItem();
-          console.log("create new car");
+          setEditItem?.();
         }}
       >
         <MdCreateNewFolder size={30} />
