@@ -1,27 +1,27 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
 import { Car, InitialState, Token, User } from "../types";
-// import reducer from "./reducer";
+import reducer from "./reducer";
 import axios from "axios";
 import _ from "lodash";
 
-// import {
-//   DISPLAY_ALERT,
-//   CLEAR_ALERT,
-//   REGISTER_USER,
-//   LOGIN_USER,
-//   SORT_ITEMS,
-//   FILTER_ITEMS,
-//   SET_EDIT_ITEM,
-//   CLOSE_MODAL,
-//   REMOVE_ITEM,
-//   SET_DROPDOWN_VALUE,
-//   REPLACE_ITEM,
-//   ADD_ITEM,
-//   FETCH_SUCCESS,
-//   FETCH_ERROR,
-//   FETCH_PENDING,
-//   SET_IS_CARS,
-// } from "./actions";
+import {
+  DISPLAY_ALERT,
+  CLEAR_ALERT,
+  REGISTER_USER,
+  LOGIN_USER,
+  SORT_ITEMS,
+  FILTER_ITEMS,
+  SET_EDIT_ITEM,
+  CLOSE_MODAL,
+  REMOVE_ITEM,
+  SET_DROPDOWN_VALUE,
+  REPLACE_ITEM,
+  ADD_ITEM,
+  FETCH_SUCCESS,
+  FETCH_ERROR,
+  FETCH_PENDING,
+  SET_IS_CARS,
+} from "./actions";
 
 const user = localStorage.getItem("user");
 const token = localStorage.getItem("token");
@@ -60,60 +60,28 @@ type AppContextProviderProps = {
 const AppContext = createContext(initialState);
 
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  // const [state, dispatch] = useReducer(reducer, initialState);
-  const [state, setState] = useState<InitialState>(initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchAllCars = () => {
-    // dispatch({ type: FETCH_PENDING });
-    setState({
-      ...state,
-      isLoading: true,
-    });
+    dispatch({ type: FETCH_PENDING });
     axios
       .get("http://localhost:8999/cars")
       .then((response) => {
-        // dispatch({ type: FETCH_SUCCESS, payload: response.data });
-        setState({
-          ...state,
-          isLoading: false,
-          tableItems: response.data,
-          preservedItems: response.data,
-          error: "",
-        });
+        dispatch({ type: FETCH_SUCCESS, payload: response.data });
       })
       .catch((error) => {
-        // dispatch({ type: FETCH_ERROR, payload: error.message });
-        setState({
-          ...state,
-          isLoading: false,
-          tableItems: [],
-          preservedItems: [],
-          error: error.message || "Something went wrong",
-        });
+        dispatch({ type: FETCH_ERROR, payload: error.message });
       });
   };
 
   const displayAlert = (msg?: string) => {
-    // dispatch({ type: DISPLAY_ALERT, payload: msg });
-    setState({
-      ...state,
-      showAlert: true,
-      alertType: "danger",
-      alertText: msg || "Please provide all values",
-    });
-
+    dispatch({ type: DISPLAY_ALERT, payload: msg });
     clearAlert();
   };
 
   const clearAlert = () => {
     setTimeout(() => {
-      // dispatch({ type: CLEAR_ALERT });
-      setState({
-        ...state,
-        showAlert: false,
-        alertType: "",
-        alertText: "",
-      });
+      dispatch({ type: CLEAR_ALERT });
     }, 2500);
   };
 
@@ -126,44 +94,22 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const registerUser = (user: User) => {
     const token: string = "mockToken";
 
-    // dispatch({
-    //   type: REGISTER_USER,
-    //   payload: { user, token },
-    // });
-    setState({
-      ...state,
-      isLoading: false,
-      token: token,
-      user: user,
-      showAlert: true,
-      isCars: "true",
-      alertType: "success",
-      alertText: "User created. Redirecting...",
+    dispatch({
+      type: REGISTER_USER,
+      payload: { user, token },
     });
 
     addUserToLocalStorage(user, token);
-
     clearAlert();
   };
 
   const loginUser = (user: User, token: Token) => {
-    // dispatch({
-    //   type: LOGIN_USER,
-    //   payload: { user, token },
-    // });
-    setState({
-      ...state,
-      isLoading: false,
-      token: token,
-      user: user,
-      showAlert: true,
-      isCars: "true",
-      alertType: "success",
-      alertText: "Login successful. Redirecting...",
+    dispatch({
+      type: LOGIN_USER,
+      payload: { user, token },
     });
 
     addUserToLocalStorage(user, token);
-
     clearAlert();
   };
 
@@ -183,15 +129,9 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       sortType = "desc";
     }
 
-    // dispatch({
-    //   type: SORT_ITEMS,
-    //   payload: { tempItems, sortType, sortField },
-    // });
-    setState({
-      ...state,
-      tableItems: tempItems,
-      sortType: sortType,
-      sortField: sortField,
+    dispatch({
+      type: SORT_ITEMS,
+      payload: { tempItems, sortType, sortField },
     });
   };
 
@@ -207,13 +147,9 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       );
     }
 
-    // dispatch({
-    //   type: FILTER_ITEMS,
-    //   payload: tempItems,
-    // });
-    setState({
-      ...state,
-      tableItems: tempItems,
+    dispatch({
+      type: FILTER_ITEMS,
+      payload: tempItems,
     });
   };
 
@@ -232,77 +168,48 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
     if (id) {
       itemToEdit = state.tableItems.find((item) => item.id === id);
     } else {
-      itemToEdit = {
-        id: "",
-        make: "",
-        vin: "",
-        plate_number: "",
-        cost: "",
-        photo: "",
-      };
-
       shouldEdit = false;
     }
 
-    // dispatch({
-    //   type: SET_EDIT_ITEM,
-    //   payload: { itemToEdit, shouldEdit },
-    // });
-    setState({
-      ...state,
-      editItem: itemToEdit!,
-      isEdit: shouldEdit,
-      isOpen: true,
+    dispatch({
+      type: SET_EDIT_ITEM,
+      payload: { itemToEdit, shouldEdit },
     });
   };
 
   const closeModal = () => {
-    // dispatch({ type: CLOSE_MODAL });
-    setState({
-      ...state,
-      isOpen: false,
-    });
+    dispatch({ type: CLOSE_MODAL });
   };
 
   const removeItem = (id: string) => {
-    const filteredItems = state.tableItems.filter((item) => item.id !== id);
+    const filteredItems = state.tableItems.filter(
+      (item: Car) => item.id !== id
+    );
 
-    // dispatch({
-    //   type: REMOVE_ITEM,
-    //   payload: filteredItems,
-    // });
-    setState({
-      ...state,
-      tableItems: filteredItems,
+    dispatch({
+      type: REMOVE_ITEM,
+      payload: filteredItems,
     });
   };
 
   const setDropdownValue = (value: string) => {
-    // dispatch({
-    //   type: SET_DROPDOWN_VALUE,
-    //   payload: value,
-    // });
-    setState({
-      ...state,
-      dropdownValue: value,
+    dispatch({
+      type: SET_DROPDOWN_VALUE,
+      payload: value,
     });
   };
 
   const replaceItem = (itemToReplace: Car) => {
     const tempItems = [...state.tableItems];
     const index = state.tableItems.findIndex(
-      (item) => item.id === state.editItem.id
+      (item: Car) => item.id === state.editItem?.id
     );
 
     tempItems[index] = itemToReplace;
 
-    // dispatch({
-    //   type: REPLACE_ITEM,
-    //   payload: tempItems,
-    // });
-    setState({
-      ...state,
-      tableItems: tempItems,
+    dispatch({
+      type: REPLACE_ITEM,
+      payload: tempItems,
     });
   };
 
@@ -315,22 +222,14 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
     tempItems.unshift(newItem);
 
-    // dispatch({
-    //   type: ADD_ITEM,
-    //   payload: tempItems,
-    // });
-    setState({
-      ...state,
-      tableItems: tempItems,
+    dispatch({
+      type: ADD_ITEM,
+      payload: tempItems,
     });
   };
 
   const hideLogout = () => {
-    // dispatch({ type: SET_IS_CARS });
-    setState({
-      ...state,
-      isCars: "",
-    });
+    dispatch({ type: SET_IS_CARS });
   };
 
   return (
@@ -356,9 +255,5 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
     </AppContext.Provider>
   );
 };
-
-// const useAppContext = () => {
-//   return useContext(AppContext);
-// };
 
 export { AppContextProvider, AppContext };

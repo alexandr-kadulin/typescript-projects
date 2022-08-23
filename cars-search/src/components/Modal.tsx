@@ -23,7 +23,7 @@ const Modal = () => {
     showAlert,
   } = useContext(AppContext);
 
-  const [car, setCar] = useState<Car>(editItem);
+  const [car, setCar] = useState<Car>(editItem!);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCar({ ...car, [e.target.name]: e.target.value });

@@ -28,7 +28,7 @@ export type InitialState = {
   isLoading: boolean;
   showAlert: boolean;
   isCars: string;
-  editItem: Car;
+  editItem: Car | undefined;
   token: Token;
   user: User | null;
   tableItems: Car[];
