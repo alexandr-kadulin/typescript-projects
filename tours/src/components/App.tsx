@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { ITour, Loading, Tours } from '.';
+import { useState, useEffect } from "react";
+import { ITour, Loading, Tours } from ".";
 
-const url = 'https://course-api.com/react-tours-project';
+const url = "https://course-api.com/react-tours-project";
 
 export const App = () => {
   const [loading, setLoading] = useState(true);
@@ -12,23 +12,23 @@ export const App = () => {
     setTours(newTours);
   };
 
-  const fetchTours = async () => {
+  const fetchTours = () => {
     setLoading(true);
 
-    try {
-      const response = await fetch(url);
-      const tours = (await response.json()) as ITour[];
-
-      setLoading(false);
-      setTours(tours);
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-    }
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setTours(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
-    void fetchTours();
+    fetchTours();
   }, []);
 
   if (loading) {
@@ -44,7 +44,7 @@ export const App = () => {
       <main>
         <div className="title">
           <h2>no tours left</h2>
-          <button className="btn" onClick={() => void fetchTours()}>
+          <button className="btn" onClick={fetchTours}>
             refresh
           </button>
         </div>
